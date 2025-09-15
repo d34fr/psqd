@@ -1,0 +1,22 @@
+{
+  "name": "gestion-vocal-bot",
+  "version": "1.0.0",
+  "description": "Bot Discord de gestion des salons vocaux + permissions (PV & Catlock) - VC Itamori 🍜",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "chalk": "^5.3.0"
+  },
+  "devDependencies": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
