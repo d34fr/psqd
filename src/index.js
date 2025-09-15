@@ -12,7 +12,7 @@ import {
   TextInputStyle,
 } from 'discord.js';
 import { loadJsonSafe, safeWriteJson, DATA_PATH, CONFIG_PATH, baseEmbed, fmtLine, logAction } from './utils.js';
-import { handleCommand } from './commands.js';
+import { handleCommand } from './commands/index.js';
 import { attachVoiceGuards } from './voiceLogic.js';
 
 /* -------------------- helpers -------------------- */
@@ -41,6 +41,8 @@ const data = loadJsonSafe(DATA_PATH, {
   "catlock": { "categories": [] },
   "logChannelId": "",
   "prefix": "=",
+  "autoacc": {},
+  "wall": []
 });
 
 function persist() {
@@ -78,8 +80,28 @@ const client = new Client({
 
 client.once('ready', () => {
   console.log(chalk.green(`[READY] Connecté en tant que ${client.user.tag}`));
-  // Retire toute activité → plus de “Joue à …”
-  client.user.setPresence({ activities: [], status: 'online' });
+  
+  // Configuration du statut depuis config.json
+  const statusConfig = config.status || {};
+  const activities = [];
+  
+  if (statusConfig.type === 'STREAMING' && statusConfig.name) {
+    activities.push({
+      name: statusConfig.name,
+      type: ActivityType.Streaming,
+      url: statusConfig.url || 'https://twitch.tv/itamori'
+    });
+  } else if (statusConfig.name) {
+    activities.push({
+      name: statusConfig.name,
+      type: ActivityType.Playing
+    });
+  }
+  
+  client.user.setPresence({ 
+    activities, 
+    status: 'online' 
+  });
 });
 
 /* -------------------- commands -------------------- */

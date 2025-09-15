@@ -24,7 +24,12 @@ export function attachVoiceGuards(client, data) {
       // ✅ Vérification PV
       if (data.pv.enabledChannels.includes(newChannel.id)) {
         const ownerId = data.pv.owners[newChannel.id];
-        const allowedUsers = new Set([ownerId, ...(data.pv.access[newChannel.id] || [])]);
+        const accessList = data.pv.access[newChannel.id] || [];
+        
+        // Ajouter les utilisateurs autoacc du propriétaire
+        const ownerAutoAcc = data.autoacc && data.autoacc[ownerId] ? data.autoacc[ownerId] : [];
+        const allAllowed = [ownerId, ...accessList, ...ownerAutoAcc];
+        const allowedUsers = new Set(allAllowed.filter(Boolean));
 
         if (!allowedUsers.has(member.id)) {
           await handleKickFromVoice({

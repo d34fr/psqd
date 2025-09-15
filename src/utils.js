@@ -32,9 +32,10 @@ export function fmtLine(emoji, text) {
 }
 
 export function baseEmbed() {
+  const config = loadJsonSafe(CONFIG_PATH, {});
   return new EmbedBuilder()
     .setColor(0x000000)
-    .setFooter({ text: 'Gestion VC ©' })
+    .setFooter({ text: config.footer || 'Gestion VC ©' })
     .setTimestamp();
 }
 

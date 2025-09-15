@@ -1,3 +1,9 @@
 {
-  "token": "token"
+  "token": "token",
+  "status": {
+    "type": "STREAMING",
+    "name": "Gestion VC Itamori 🍜",
+    "url": "https://twitch.tv/itamori"
+  },
+  "footer": "Gestion VC Itamori © 2025"
 }
